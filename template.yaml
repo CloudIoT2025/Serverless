@@ -1,0 +1,200 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  serverless
+
+  Sample SAM Template for serverless
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  # Auth
+  RedirectCallback:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/api/auth/redirect
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        HandleRedirect:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /auth/fitbit/callback
+  LoginComplete:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/api/auth/complete
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        CompleteLogin:
+          Type: Api
+          Properties:
+            Method: post
+            Path: /auth/login
+  # Exercises
+  ListExercises:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/exercises/list
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        ListExercises:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /exercises
+  ReadExercise:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/exercises/read
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        HandleRedirect:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /exercises/{exerciseId}
+  StartExercise:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/exercises/start
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        StartExercise:
+          Type: Api
+          Properties:
+            Method: post
+            Path: /exercises/{exerciseId}/start
+  EndExercise:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/exercises/end
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        EndExercise:
+          Type: Api
+          Properties:
+            Method: post
+            Path: /exercises/{exerciseId}/end
+  # Users
+  ReadUser:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/users/read
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        ReadUser:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /users/{userId}
+  ReadDailyCalories:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/users/read-daily-calories
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        ReadDailyCalories:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /users/{userId}/calories
+  ReadGoals:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/users/read-goals
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        ReadGoals:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /users/{userId}/goals
+  SetGoals:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/users/set-goals
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        SetGoals:
+          Type: Api
+          Properties:
+            Method: put
+            Path: /users/{userId}/goals
+  ReadWeeklyGraph:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/users/read-weekly-graph
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        ReadWeeklyGraph:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /users/{userId}/weekly
+  ValidateRsp:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/api/users/validate-rsp
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Events:
+        ValidateRsp:
+          Type: Api
+          Properties:
+            Method: post
+            Path: /users/{userId}/rsp
+  # MQTT
+  
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  MoveMoreApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  MoveMoreFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt MoveMoreFunction.Arn
+  MoveMoreFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt MoveMoreFunctionRole.Arn
