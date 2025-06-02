@@ -1,21 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "outDir": "dist",
-    "strict": true,
-    "preserveConstEnums": true,
-    "noEmit": true,
-    "sourceMap": false,
     "module": "CommonJS",
+    "target": "ESNext",
+    "strict": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "sourceMap": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
   },
   "include": [
-    "src/**/*.ts",
+    "src/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-  ]
 }
