@@ -1,6 +1,6 @@
 const pool = require('../../../utils/db');
 const { DateTime } = require('luxon');
-const { waitForMqttMessage } = require('../../../mqtt/mqttHandler');
+const { moveEnd } = require('../../../IoTCoreUtill/IoTCoreUtill');
 
 exports.handler = async (event) => {
   const exerciseId = event.pathParameters?.exerciseId;
@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     const goal_calories = rows[0].video_calories;
 
     // MQTT로 Raspberry Pi로부터 칼로리 결과 수신
-    const result = await waitForMqttMessage(`move/end/${rspId}`);
+    const result = await moveEnd(rspId, 10000); // 10초 타임아웃 설정
     console.log(`/move/end/${rspId}: ${result}`);
     const ex_calories = Math.round(parseFloat(result.split(',')[0]));
 

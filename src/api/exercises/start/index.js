@@ -1,5 +1,4 @@
 const pool = require('../../../utils/db');
-// const { waitForMqttMessage, sendMqttMessage } = require('../../../mqtt/mqttHandler');
 const {moveStart,responseMoveStart} = require('../../../IoTCoreUtill/IoTCoreUtill');
 
 exports.handler = async (event) => {
@@ -34,9 +33,7 @@ exports.handler = async (event) => {
     const s3DataId = rows[0].id;
     const s3DataUrl = rows[0].s3url;
 
-    // const mqttResponsePromise = waitForMqttMessage(`response/move/start/${rspId}`);
     const mqttResponsePromise = responseMoveStart(rspId, 10000); // 10초 타임아웃 설정
-    // sendMqttMessage(`move/start/${rspId}`, `${s3DataId},${s3DataUrl},${userId}`);
     await moveStart(rspId, s3DataId, s3DataUrl, userId);
 
     const message = await mqttResponsePromise;
