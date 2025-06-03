@@ -8,38 +8,38 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
 
 Resources:
-  # Auth
-  RedirectCallback:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: dist/api/auth/redirect
-      Handler: index.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      Events:
-        HandleRedirect:
-          Type: Api
-          Properties:
-            Method: get
-            Path: /auth/fitbit/callback
-  LoginComplete:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: dist/api/auth/complete
-      Handler: index.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      Events:
-        CompleteLogin:
-          Type: Api
-          Properties:
-            Method: post
-            Path: /auth/login
+#  # Auth
+#  RedirectCallback:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      CodeUri: dist/api/auth/redirect
+#      Handler: index.handler
+#      Runtime: nodejs22.x
+#      Architectures:
+#        - x86_64
+#      Events:
+#        HandleRedirect:
+#          Type: Api
+#          Properties:
+#            Method: get
+#            Path: /auth/fitbit/callback
+#  LoginComplete:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      CodeUri: dist/api/auth/complete
+#      Handler: index.handler
+#      Runtime: nodejs22.x
+#      Architectures:
+#        - x86_64
+#      Events:
+#        CompleteLogin:
+#          Type: Api
+#          Properties:
+#            Method: post
+#            Path: /auth/login
   # Exercises
   ListExercises:
     Type: AWS::Serverless::Function

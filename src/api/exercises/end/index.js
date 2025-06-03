@@ -5,7 +5,11 @@ const {moveEnd} = require('./utils/IoTCoreUtill');
 exports.handler = async (event) => {
   const exerciseId = event.pathParameters?.exerciseId;
   const rspId = event.queryStringParameters?.rspId;
-  const userId = event.headers['x-user-id'];
+  const headers = Object.fromEntries(
+    Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v])
+  );
+
+  const userId = headers['x-user-id'];
 
   if (!exerciseId || !rspId || !userId) {
     return {

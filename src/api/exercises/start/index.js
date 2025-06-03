@@ -2,7 +2,11 @@ const pool = require('./utils/db');
 const {moveStart,responseMoveStart} = require('./utils/IoTCoreUtill');
 
 exports.handler = async (event) => {
-  const userId = event.headers['x-user-id'];
+  const headers = Object.fromEntries(
+    Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v])
+  );
+
+  const userId = headers['x-user-id'];
   const exerciseId = event.pathParameters?.exerciseId;
   const rspId = event.queryStringParameters?.rspId;
 

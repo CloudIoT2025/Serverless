@@ -1,3 +1,5 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const pool = require('./utils/db');
 
 exports.handler = async (event) => {

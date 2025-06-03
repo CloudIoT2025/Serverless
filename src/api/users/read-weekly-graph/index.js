@@ -1,8 +1,14 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const pool = require('./utils/db');
 const { DateTime } = require('luxon');
 
 exports.handler = async (event) => {
-  const userId = event.headers['x-user-id'];
+  const headers = Object.fromEntries(
+    Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v])
+  );
+
+  const userId = headers['x-user-id'];
 
   if (!userId) {
     return {
