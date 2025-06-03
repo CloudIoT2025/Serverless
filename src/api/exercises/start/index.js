@@ -1,5 +1,5 @@
 const pool = require('./utils/db');
-const {moveStart,responseMoveStart} = require('../../../IoTCoreUtill/IoTCoreUtill');
+const {moveStart,responseMoveStart} = require('./utils/IoTCoreUtill');
 
 exports.handler = async (event) => {
   const userId = event.headers['x-user-id'];
