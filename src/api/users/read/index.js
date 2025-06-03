@@ -1,4 +1,4 @@
-const pool = require('../../../utils/db');
+const pool = require('./utils/db');
 
 exports.handler = async (event) => {
   const userId = event.pathParameters?.userId;

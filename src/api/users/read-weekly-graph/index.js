@@ -1,4 +1,4 @@
-const pool = require('../../../utils/db');
+const pool = require('./utils/db');
 const { DateTime } = require('luxon');
 
 exports.handler = async (event) => {

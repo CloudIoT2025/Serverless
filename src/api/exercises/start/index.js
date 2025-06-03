@@ -1,4 +1,4 @@
-const pool = require('../../../utils/db');
+const pool = require('./utils/db');
 const {moveStart,responseMoveStart} = require('../../../IoTCoreUtill/IoTCoreUtill');
 
 exports.handler = async (event) => {
