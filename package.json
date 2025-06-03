@@ -10,6 +10,7 @@
     "compile": "tsc"
   },
   "dependencies": {
+
     "axios": "^1.9.0",
     "esbuild": "^0.14.14",
     "luxon": "^3.6.1",
