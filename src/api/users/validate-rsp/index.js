@@ -1,4 +1,4 @@
-const {healthCheck} = require('../../../IoTCoreUtill/IoTCoreUtill');
+const {healthCheck} = require('./utils/IoTCoreUtill');
 
 
 exports.handler = async (event) => {
