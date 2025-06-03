@@ -1,4 +1,5 @@
-const { waitForMqttMessage, sendMqttMessage } = require('../../../mqtt/mqttHandler');
+const {healthCheck} = require('../../../IoTCoreUtill/IoTCoreUtill');
+
 
 exports.handler = async (event) => {
   try {
@@ -11,14 +12,9 @@ exports.handler = async (event) => {
       };
     }
 
-    // 메시지 수신 기다리는 Promise
-    const result = waitForMqttMessage(`response/clientCheck/${code}`);
-    // MQTT로 코드 전송
-    sendMqttMessage('clientCheck/rsp', code);
-
+    const result = healthCheck(code, 5000); // 5초 타임아웃 설정
     const message = await result;
     const valid = message === '1';
-
     return {
       statusCode: 200,
       body: JSON.stringify({ valid, rspId: code }),
