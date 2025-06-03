@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "aws-iot-device-sdk": "^2.2.15",
-    "dotenv": "^16.5.0",
     "esbuild": "^0.14.14",
     "luxon": "^3.6.1",
     "mysql2": "^3.14.1"
