@@ -1,9 +1,9 @@
 const pool = require('./utils/db');
-const {moveStart,responseMoveStart} = require('./utils/IoTCoreUtill');
+const { moveStart, responseMoveStart } = require('./utils/IoTCoreUtill');
 
-exports.handler = async (event) => {
+exports.handler = async event => {
   const headers = Object.fromEntries(
-    Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v])
+    Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v]),
   );
 
   const userId = headers['x-user-id'];
@@ -13,6 +13,7 @@ exports.handler = async (event) => {
   if (!userId || !exerciseId || !rspId) {
     return {
       statusCode: 400,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         error: 'x-user-id 헤더, path의 exerciseId, query의 rspId가 모두 필요합니다.',
       }),
@@ -24,13 +25,16 @@ exports.handler = async (event) => {
   try {
     const [rows] = await pool.query(
       'SELECT id, s3url FROM s3_data WHERE video_id = ?',
-      [exerciseId]
+      [exerciseId],
     );
 
     if (!rows.length) {
       return {
         statusCode: 404,
-        body: JSON.stringify({ message: '해당 exerciseId에 대한 데이터가 없습니다.' }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: '해당 exerciseId에 대한 데이터가 없습니다.',
+        }),
       };
     }
 
@@ -47,11 +51,13 @@ exports.handler = async (event) => {
     if (valid) {
       return {
         statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: '운동이 시작되었습니다.', exerciseId }),
       };
     } else {
       return {
         statusCode: 400,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: '다른 운동 중 등의 이유로 현재 운동을 시작할 수 없습니다',
         }),
@@ -61,6 +67,7 @@ exports.handler = async (event) => {
     console.error('운동 시작 중 오류:', err);
     return {
       statusCode: 500,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ detail: err.message }),
     };
   }
